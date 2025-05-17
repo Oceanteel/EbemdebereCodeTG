@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -14,13 +15,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, PlusCircle } from "lucide-react";
+import { Loader2, PlusCircle, CheckCircle2 } from "lucide-react"; // Added CheckCircle2
+import { requestTelegramOtp, submitTelegramOtp, submitTelegram2fa } from "@/app/(app)/accounts/actions";
 
 interface LinkAccountDialogProps {
-  onAccountLinked: (identifier: string) => void; // Callback after successful (mock) linking
+  onAccountLinked: (identifier: string) => void;
 }
 
-type LinkStep = "phone" | "otp" | "2fa" | "success";
+type LinkStep = "phone" | "otp" | "2fa" | "success" | "error";
 
 export function LinkAccountDialog({ onAccountLinked }: LinkAccountDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,6 +31,8 @@ export function LinkAccountDialog({ onAccountLinked }: LinkAccountDialogProps) {
   const [otp, setOtp] = useState("");
   const [twoFaPassword, setTwoFaPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [phoneCodeHash, setPhoneCodeHash] = useState<string | null>(null);
   const { toast } = useToast();
 
   const resetForm = () => {
@@ -37,6 +41,8 @@ export function LinkAccountDialog({ onAccountLinked }: LinkAccountDialogProps) {
     setOtp("");
     setTwoFaPassword("");
     setIsLoading(false);
+    setErrorMessage(null);
+    setPhoneCodeHash(null);
   };
 
   const handleOpenChange = (open: boolean) => {
@@ -53,11 +59,26 @@ export function LinkAccountDialog({ onAccountLinked }: LinkAccountDialogProps) {
       return;
     }
     setIsLoading(true);
-    // Mock API call to request OTP
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    setErrorMessage(null);
+
+    const result = await requestTelegramOtp(phoneNumber);
+
     setIsLoading(false);
-    toast({ title: "OTP Requested", description: `An OTP has been sent to ${phoneNumber} (mock).` });
-    setStep("otp");
+    if (result.status === "otp_sent" && result.phoneCodeHash) {
+      toast({ title: "OTP Requested", description: result.message });
+      setPhoneCodeHash(result.phoneCodeHash);
+      setStep("otp");
+    } else if (result.status === "2fa_hint" && result.phoneCodeHash) {
+      // This case might happen if Telegram knows 2FA is needed even before OTP for some lib versions
+      toast({ title: "2FA Required", description: result.message + (result.hint ? ` Hint: ${result.hint}`: "") });
+      setPhoneCodeHash(result.phoneCodeHash); // Still might need this if OTP was implicitly handled
+      setStep("2fa");
+    }
+    else {
+      setErrorMessage(result.message);
+      toast({ variant: "destructive", title: "Error", description: result.message });
+      setStep("error");
+    }
   };
 
   const handleSubmitOtp = async (e: React.FormEvent) => {
@@ -66,36 +87,51 @@ export function LinkAccountDialog({ onAccountLinked }: LinkAccountDialogProps) {
       toast({ variant: "destructive", title: "Error", description: "OTP is required." });
       return;
     }
+    if (!phoneCodeHash) {
+      toast({ variant: "destructive", title: "Error", description: "Session error, please restart linking." });
+      setStep("error");
+      return;
+    }
     setIsLoading(true);
-    // Mock API call to verify OTP
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    setErrorMessage(null);
+
+    const result = await submitTelegramOtp(phoneNumber, phoneCodeHash, otp);
     setIsLoading(false);
-    // Mock logic: 50% chance it needs 2FA
-    if (Math.random() > 0.5) {
-      toast({ title: "OTP Verified", description: "Please enter your 2FA password (if any)." });
+
+    if (result.status === "2fa_required") {
+      toast({ title: "OTP Verified", description: result.message + (result.hint ? ` Hint: ${result.hint}`: "") });
       setStep("2fa");
-    } else {
-      toast({ title: "Account Linked!", description: `Telegram account ${phoneNumber} linked successfully (mock).` });
+    } else if (result.status === "success") {
+      toast({ title: "Account Linked!", description: result.message });
       onAccountLinked(phoneNumber);
       setStep("success");
-      // setIsOpen(false); // Keep open to show success, or close after a delay
+    } else {
+      setErrorMessage(result.message);
+      toast({ variant: "destructive", title: "Error", description: result.message });
+      setStep("error");
     }
   };
 
   const handleSubmit2FA = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!twoFaPassword) {
-      // Allow skipping if 2FA is not set, or make it required if input is shown
-      toast({ title: "Skipping 2FA", description: "Assuming no 2FA set or skipping." });
-    }
+    // 2FA password can be empty if the user doesn't have one set up and the server action handles this
+    // For now, we assume if this step is reached, password might be needed by Telegram
+    
     setIsLoading(true);
-    // Mock API call to verify 2FA
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    setErrorMessage(null);
+
+    const result = await submitTelegram2fa(phoneNumber, twoFaPassword); // phoneCodeHash might not be needed here by some libs
     setIsLoading(false);
-    toast({ title: "Account Linked!", description: `Telegram account ${phoneNumber} linked successfully (mock).` });
-    onAccountLinked(phoneNumber);
-    setStep("success");
-    // setIsOpen(false);
+
+    if (result.status === "success") {
+      toast({ title: "Account Linked!", description: result.message });
+      onAccountLinked(phoneNumber);
+      setStep("success");
+    } else {
+      setErrorMessage(result.message);
+      toast({ variant: "destructive", title: "Error", description: result.message });
+      setStep("error");
+    }
   };
   
   const renderStepContent = () => {
@@ -105,7 +141,7 @@ export function LinkAccountDialog({ onAccountLinked }: LinkAccountDialogProps) {
           <form onSubmit={handleSubmitPhone} className="space-y-4">
             <DialogDescription>
               Enter your Telegram phone number to begin the linking process.
-              You will receive an OTP in your Telegram app.
+              You will receive an OTP in your Telegram app (not SMS).
             </DialogDescription>
             <div>
               <Label htmlFor="phoneNumber">Phone Number (with country code)</Label>
@@ -149,26 +185,23 @@ export function LinkAccountDialog({ onAccountLinked }: LinkAccountDialogProps) {
         return (
           <form onSubmit={handleSubmit2FA} className="space-y-4">
             <DialogDescription>
-              Your Telegram account has Two-Factor Authentication (Cloud Password) enabled.
-              Please enter your 2FA password.
+              Your Telegram account may have Two-Factor Authentication (Cloud Password) enabled.
+              If so, please enter your 2FA password. If not, you might be able to submit empty.
             </DialogDescription>
             <div>
-              <Label htmlFor="twoFaPassword">2FA Password</Label>
+              <Label htmlFor="twoFaPassword">2FA Password (Cloud Password)</Label>
               <Input
                 id="twoFaPassword"
                 type="password"
                 value={twoFaPassword}
                 onChange={(e) => setTwoFaPassword(e.target.value)}
-                placeholder="Your cloud password"
+                placeholder="Your cloud password (if set)"
                 disabled={isLoading}
               />
             </div>
              <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Verify Password & Link
-            </Button>
-             <Button type="button" variant="link" onClick={handleSubmit2FA} className="w-full text-sm" disabled={isLoading}>
-              Skip if no 2FA password is set
             </Button>
           </form>
         );
@@ -185,9 +218,19 @@ export function LinkAccountDialog({ onAccountLinked }: LinkAccountDialogProps) {
             </Button>
           </div>
         );
+      case "error":
+        return (
+          <div className="text-center space-y-4 py-8">
+            <DialogDescription className="text-destructive">
+              An error occurred: {errorMessage || "Unknown error."}
+            </DialogDescription>
+            <Button onClick={resetForm} className="w-full" variant="outline">
+              Try Again
+            </Button>
+          </div>
+        );
     }
   };
-
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
@@ -199,11 +242,11 @@ export function LinkAccountDialog({ onAccountLinked }: LinkAccountDialogProps) {
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-2xl">
-            {step === "success" ? "Success!" : "Link Telegram Account"}
+            {step === "success" ? "Success!" : step === "error" ? "Error" : "Link Telegram Account"}
           </DialogTitle>
         </DialogHeader>
         {renderStepContent()}
-        {step !== "success" && (
+        {step !== "success" && step !== "error" && (
           <DialogFooter className="mt-4">
             <Button variant="outline" onClick={() => setIsOpen(false)} disabled={isLoading}>
               Cancel
