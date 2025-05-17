@@ -117,8 +117,7 @@ export function LinkAccountDialog({ onAccountLinked }: LinkAccountDialogProps) {
     // 2FA password can be empty if the user doesn't have one set up and the server action handles this
     // For now, we assume if this step is reached, password might be needed by Telegram
     
-    setIsLoading(true);
-    setErrorMessage(null);
+     setIsLoading(true);
 
     const result = await submitTelegram2fa(phoneNumber, twoFaPassword); // phoneCodeHash might not be needed here by some libs
     setIsLoading(false);
