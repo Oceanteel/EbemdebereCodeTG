@@ -1,3 +1,4 @@
+
 import type { LucideIcon } from 'lucide-react';
 
 interface PageHeaderProps {
@@ -9,15 +10,15 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, description, icon: Icon, actions }: PageHeaderProps) {
   return (
-    <div className="mb-8">
-      <div className="flex items-center justify-between">
+    <div className="mb-6 md:mb-8"> {/* Consistent margin */}
+      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-3">
-          {Icon && <Icon className="h-8 w-8 text-primary" />}
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">{title}</h1>
+          {Icon && <Icon className="h-7 w-7 text-primary md:h-8 md:w-8" />} {/* Slightly larger icon */}
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl">{title}</h1> {/* Bolder and slightly larger */}
         </div>
-        {actions && <div>{actions}</div>}
+        {actions && <div className="mt-2 md:mt-0">{actions}</div>}
       </div>
-      {description && <p className="mt-2 text-muted-foreground">{description}</p>}
+      {description && <p className="mt-2 text-base text-muted-foreground">{description}</p>} {/* Slightly larger description */}
     </div>
   );
 }

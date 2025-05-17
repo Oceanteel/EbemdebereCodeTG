@@ -1,3 +1,4 @@
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
@@ -9,7 +10,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      "rounded-xl border bg-card text-card-foreground shadow-md", // Changed to rounded-xl and shadow-md
       className
     )}
     {...props}
@@ -30,13 +31,13 @@ const CardHeader = React.forwardRef<
 CardHeader.displayName = "CardHeader"
 
 const CardTitle = React.forwardRef<
-  HTMLDivElement, // Changed from HTMLParagraphElement to HTMLDivElement to match proposal's structure
-  React.HTMLAttributes<HTMLHeadingElement> // Props for h1-h6, but rendered as div
+  HTMLDivElement, 
+  React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, ...props }, ref) => (
-  <div // Using div as per typical CardTitle structure, can be h2, h3 etc. inside
+  <div 
     ref={ref}
     className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
+      "text-xl font-semibold leading-none tracking-tight", // Changed default size to text-xl
       className
     )}
     {...props}
@@ -45,10 +46,10 @@ const CardTitle = React.forwardRef<
 CardTitle.displayName = "CardTitle"
 
 const CardDescription = React.forwardRef<
-  HTMLParagraphElement, // Changed from HTMLDivElement for semantic correctness
+  HTMLParagraphElement, 
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <p // Using p tag for description
+  <p 
     ref={ref}
     className={cn("text-sm text-muted-foreground", className)}
     {...props}

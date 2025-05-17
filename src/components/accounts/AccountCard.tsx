@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,9 +25,9 @@ export function AccountCard({ account, onReauthenticate, onUnlink, onRefreshChat
   const getStatusBadgeVariant = (status: TelegramAccount["status"]) => {
     switch (status) {
       case "Active":
-        return "default"; // Default is usually primary
+        return "default"; 
       case "Needs Re-authentication":
-        return "secondary"; // Secondary or a warning color
+        return "secondary"; 
       case "Error":
         return "destructive";
       default:
@@ -41,15 +42,15 @@ export function AccountCard({ account, onReauthenticate, onUnlink, onRefreshChat
       case "Needs Re-authentication":
         return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
       case "Error":
-        return <AlertTriangle className="h-4 w-4 text-red-500" />;
+        return <AlertTriangle className="h-4 w-4 text-red-500" />; // Ensure this uses a destructive-like color from theme if possible
       default:
         return null;
     }
   }
 
   return (
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
-      <CardHeader>
+    <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
+      <CardHeader className="pb-4"> {/* Reduced padding bottom */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             {account.avatarUrl ? (
@@ -57,20 +58,22 @@ export function AccountCard({ account, onReauthenticate, onUnlink, onRefreshChat
             ) : (
               <UserCircle className="h-10 w-10 text-muted-foreground" />
             )}
-            <CardTitle className="text-lg text-foreground">{account.identifier}</CardTitle>
+            <CardTitle className="text-lg">{account.identifier}</CardTitle> {/* Ensured consistent CardTitle usage */}
           </div>
-          <Badge variant={getStatusBadgeVariant(account.status)} className="flex items-center gap-1">
-            {getStatusIcon(account.status)}
+        </div>
+      </CardHeader>
+      <CardContent className="pt-0 pb-4"> {/* Adjusted padding */}
+        <div className="flex items-center gap-2">
+         {getStatusIcon(account.status)}
+         <Badge variant={getStatusBadgeVariant(account.status)} className="text-xs px-2 py-0.5">
             {account.status}
           </Badge>
         </div>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-muted-foreground">
+        <CardDescription className="mt-2 text-sm"> {/* Ensured consistent CardDescription usage */}
           Manage this Telegram account's connection and chat lists.
-        </p>
+        </CardDescription>
       </CardContent>
-      <CardFooter className="flex flex-col sm:flex-row justify-between gap-2">
+      <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 pt-0">
         <Button variant="outline" size="sm" onClick={() => onRefreshChats(account.id)} className="w-full sm:w-auto">
           <RefreshCw className="mr-2 h-4 w-4" /> Refresh Chats
         </Button>

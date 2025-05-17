@@ -1,12 +1,15 @@
+
 "use client";
 
 import { useState } from "react";
 import { PageHeader } from "@/components/general/PageHeader";
 import { AccountCard, TelegramAccount } from "@/components/accounts/AccountCard";
 import { LinkAccountDialog } from "@/components/accounts/LinkAccountDialog";
-import { Users, AlertTriangle } from "lucide-react";
+import { UsersRound, AlertTriangle, WifiOff } from "lucide-react"; // Changed Users to UsersRound
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
+import { Card, CardContent } from "@/components/ui/card"; // Import Card components
+import { Button } from "@/components/ui/button";
 
 // Mock data - replace with actual data fetching from Firestore
 const initialAccounts: TelegramAccount[] = [
@@ -36,7 +39,7 @@ export default function AccountsPage() {
 
   const handleAccountLinked = (identifier: string) => {
     const newAccount: TelegramAccount = {
-      id: (accounts.length + 1).toString(),
+      id: (accounts.length + 1 + Math.random()).toString(), // Ensure unique ID for mock
       identifier,
       status: "Active",
       avatarUrl: `https://placehold.co/100x100.png?text=U${accounts.length + 1}`
@@ -50,17 +53,17 @@ export default function AccountsPage() {
       <PageHeader
         title="Linked Telegram Accounts"
         description="Manage your connected Telegram accounts, link new ones, or re-authenticate existing sessions."
-        icon={Users}
+        icon={UsersRound}
         actions={<LinkAccountDialog onAccountLinked={handleAccountLinked} />}
       />
 
       {accounts.length === 0 ? (
-        <Card className="shadow-lg">
-          <CardContent className="p-8 text-center">
-             <Image src="https://placehold.co/300x200.png" alt="No accounts linked" width={300} height={200} className="mx-auto mb-6 rounded-lg" data-ai-hint="empty state connection" />
+        <Card className="shadow-lg border-0 bg-card">
+          <CardContent className="p-8 text-center flex flex-col items-center">
+             <WifiOff className="h-24 w-24 text-muted-foreground/50 mb-6" />
             <h3 className="text-xl font-semibold text-foreground mb-2">No Accounts Linked Yet</h3>
-            <p className="text-muted-foreground mb-4">
-              Connect your Telegram accounts to start scheduling messages and using AI tools.
+            <p className="text-muted-foreground mb-6 max-w-md">
+              Connect your Telegram accounts to start scheduling messages and using AI tools. Clicking below will open a dialog to guide you through the process.
             </p>
             <LinkAccountDialog onAccountLinked={handleAccountLinked} />
           </CardContent>
@@ -78,12 +81,12 @@ export default function AccountsPage() {
           ))}
         </div>
       )}
-       <div className="mt-8 p-4 border border-yellow-300 bg-yellow-50 rounded-lg shadow">
+       <div className="mt-8 p-4 border border-[hsl(var(--card-bg-orange))] bg-[hsl(var(--card-bg-orange))] rounded-lg shadow-sm">
         <div className="flex items-start">
-          <AlertTriangle className="h-5 w-5 text-yellow-500 mr-3 flex-shrink-0 mt-0.5" />
+          <AlertTriangle className="h-5 w-5 text-[hsl(var(--card-icon-orange))] mr-3 flex-shrink-0 mt-0.5" />
           <div>
-            <h4 className="font-semibold text-yellow-700">Important Security Note</h4>
-            <p className="text-sm text-yellow-600">
+            <h4 className="font-semibold text-[hsl(var(--card-icon-orange))]">Important Security Note</h4>
+            <p className="text-sm text-[hsl(var(--card-icon-orange))] opacity-80">
               Teleflow (in a real scenario) would securely store your Telegram session credentials. This demonstration uses mock data and does not handle real Telegram authentication or session storage. Always review permissions and be cautious when linking third-party applications to your accounts.
             </p>
           </div>
