@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState, useFormStatus } from "react"; // Changed from "react-dom"
 import { signupWithEmail } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,7 +32,7 @@ function SubmitButton() {
 }
 
 export function SignupForm() {
-  const [state, formAction] = useFormState(signupWithEmail, initialState);
+  const [state, formAction] = useActionState(signupWithEmail, initialState); // Changed from useFormState
   const { toast } = useToast();
   const router = useRouter();
 
@@ -81,7 +81,7 @@ export function SignupForm() {
     }
     if (state?.message && state.success) { // Potentially from a server action
       toast({ title: "Success", description: state.message });
-      router.push("/dashboard");
+      // router.push("/dashboard"); // Redirection is handled in handleSubmit
     }
   }, [state, toast, router]);
 
@@ -92,6 +92,8 @@ export function SignupForm() {
         <CardDescription>Join Teleflow and supercharge your Telegram messaging.</CardDescription>
       </CardHeader>
       <CardContent>
+        {/* The form still uses formAction for potential server-side validation messages if needed,
+            but actual signup is client-side via handleSubmit */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="displayName">Display Name</Label>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState, useFormStatus } from "react"; // Changed from "react-dom"
 import { loginWithEmail } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,7 +31,7 @@ function SubmitButton() {
 }
 
 export function LoginForm() {
-  const [state, formAction] = useFormState(loginWithEmail, initialState);
+  const [state, formAction] = useActionState(loginWithEmail, initialState); // Changed from useFormState
   const { toast } = useToast();
   const router = useRouter();
 
@@ -62,8 +62,10 @@ export function LoginForm() {
       toast({ variant: "destructive", title: "Error", description: state.message });
     }
     if (state?.message && state.success) {
+      // This branch might be less relevant now that handleSubmit is client-side for actual auth
+      // but server action could still return messages for other purposes.
       toast({ title: "Success", description: state.message });
-      router.push("/dashboard");
+      // router.push("/dashboard"); // Redirection is handled in handleSubmit
     }
   }, [state, toast, router]);
 
@@ -74,6 +76,8 @@ export function LoginForm() {
         <CardDescription>Sign in to access your Teleflow account.</CardDescription>
       </CardHeader>
       <CardContent>
+        {/* The form still uses formAction for potential server-side validation messages if needed,
+            but actual login is client-side via handleSubmit */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
