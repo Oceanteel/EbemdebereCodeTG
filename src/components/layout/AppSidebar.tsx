@@ -26,6 +26,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils"; // Added import for cn
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
