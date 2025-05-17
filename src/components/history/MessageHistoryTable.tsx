@@ -10,6 +10,7 @@ import {
   TableRow,
   TableCaption,
 } from "@/components/ui/table";
+import { Card, CardContent } from "@/components/ui/card"; // Added Card and CardContent imports
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScheduledMessage } from "@/components/scheduler/MessageComposer"; // Reuse type
