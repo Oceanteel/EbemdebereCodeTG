@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-geist-sans', // Using Inter as primary sans-serif as per common practice
+  variable: '--font-inter', // Using Inter as primary sans-serif
 });
 
 

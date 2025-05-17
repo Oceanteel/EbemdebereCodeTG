@@ -35,7 +35,24 @@ export function SocialLogins() {
       router.push("/dashboard");
     } catch (error: any) {
       console.error("Google Sign-In Error:", error);
-      toast({ variant: "destructive", title: "Error", description: error.message || "Failed to sign in with Google." });
+
+      // **Handle the "auth/popup-closed-by-user" error specifically**
+      if (error.code === "auth/popup-closed-by-user") {
+        // Add a small delay and check for authentication status
+        setTimeout(async () => {
+          if (auth.currentUser) {
+            // User is authenticated, redirect to dashboard
+            toast({ title: "Success", description: "Signed in with Google successfully." });
+            router.push("/dashboard");
+          } else {
+            // User is not authenticated, show the error message
+            toast({ variant: "destructive", title: "Error", description: error.message || "Failed to sign in with Google." });
+          }
+        }, 1000); // Adjust the delay as needed (e.g., 1000ms)
+      } else {
+        // Handle other errors
+        toast({ variant: "destructive", title: "Error", description: error.message || "Failed to sign in with Google." });
+      }
     }
   };
 
