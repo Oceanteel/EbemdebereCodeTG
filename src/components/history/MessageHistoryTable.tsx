@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -10,10 +11,10 @@ import {
   TableRow,
   TableCaption,
 } from "@/components/ui/table";
-import { Card, CardContent } from "@/components/ui/card"; // Added Card and CardContent imports
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ScheduledMessage } from "@/components/scheduler/MessageComposer"; // Reuse type
+import type { ScheduledMessage } from "@/components/scheduler/MessageComposer"; // Reuse type
 import { format } from "date-fns";
 import { Edit3, Trash2, Clock, CheckCircle, XCircle, Send } from "lucide-react";
 import {
@@ -90,12 +91,12 @@ export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }
       </TableHeader>
       <TableBody>
         {messages.map((msg) => (
-          <TableRow key={msg.id}>
-            <TableCell className="font-medium">{format(msg.scheduledTime, "PPpp")}</TableCell>
-            <TableCell className="max-w-xs truncate">{msg.messageContent}</TableCell>
-            <TableCell>{msg.targetChatIds.length} chat(s)</TableCell> {/* Simplified display */}
-            <TableCell>{getStatusBadge(msg.status)}</TableCell>
-            <TableCell className="text-right">
+          <TableRow key={msg.id}
+            ><TableCell className="font-medium">{format(msg.scheduledTime, "PPpp")}</TableCell
+            ><TableCell className="max-w-xs truncate">{msg.messageContent}</TableCell
+            ><TableCell>{msg.targetChatIds.length} chat(s)</TableCell
+            ><TableCell>{getStatusBadge(msg.status)}</TableCell
+            ><TableCell className="text-right">
               {msg.status === "Pending" && (
                 <div className="space-x-2">
                   <Button variant="outline" size="icon" onClick={() => onEditMessage(msg.id)} title="Edit">
@@ -108,8 +109,7 @@ export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }
                   </AlertDialogTrigger>
                 </div>
               )}
-            </TableCell>
-          </TableRow>
+            </TableCell></TableRow>
         ))}
       </TableBody>
     </Table>
