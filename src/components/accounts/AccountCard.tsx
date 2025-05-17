@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { UserCircle, RefreshCw, LinkOff, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { UserCircle, RefreshCw, Link2Off, AlertTriangle, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 
 export interface TelegramAccount {
@@ -81,7 +81,7 @@ export function AccountCard({ account, onReauthenticate, onUnlink, onRefreshChat
             </Button>
           )}
           <Button variant="destructive" size="sm" onClick={() => onUnlink(account.id)} className="flex-1">
-            <LinkOff className="mr-2 h-4 w-4" /> Unlink
+            <Link2Off className="mr-2 h-4 w-4" /> Unlink
           </Button>
         </div>
       </CardFooter>
