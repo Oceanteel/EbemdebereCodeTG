@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useFormStatus } from "react"; // Changed from "react-dom"
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { signupWithEmail } from "@/app/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,7 +33,7 @@ function SubmitButton() {
 }
 
 export function SignupForm() {
-  const [state, formAction] = useActionState(signupWithEmail, initialState); // Changed from useFormState
+  const [state, formAction] = useActionState(signupWithEmail, initialState);
   const { toast } = useToast();
   const router = useRouter();
 
