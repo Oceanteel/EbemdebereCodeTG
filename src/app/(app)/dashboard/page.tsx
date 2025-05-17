@@ -1,7 +1,8 @@
+
 import { PageHeader } from "@/components/general/PageHeader";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Send, History, BotMessageSquare, LayoutDashboard } from "lucide-react";
+import { Users, Send, History, BotMessageSquare, LayoutDashboard, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -22,35 +23,56 @@ export default function DashboardPage() {
       />
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Linked Accounts</CardTitle>
             <Users className="h-5 w-5 text-primary" />
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-grow">
             <div className="text-3xl font-bold text-foreground">{stats.linkedAccounts}</div>
             <p className="text-xs text-muted-foreground pt-1">Manage your connected Telegram accounts.</p>
           </CardContent>
+          <CardFooter>
+            <Button asChild variant="outline" size="sm" className="w-full">
+              <Link href="/accounts">
+                View Accounts <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </CardFooter>
         </Card>
-        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Upcoming Messages</CardTitle>
             <Send className="h-5 w-5 text-primary" />
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-grow">
             <div className="text-3xl font-bold text-foreground">{stats.upcomingMessages}</div>
             <p className="text-xs text-muted-foreground pt-1">Messages scheduled to be sent.</p>
           </CardContent>
+          <CardFooter>
+            <Button asChild variant="outline" size="sm" className="w-full">
+              <Link href="/history">
+                View History <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </CardFooter>
         </Card>
-        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Sent (Last 24h)</CardTitle>
             <History className="h-5 w-5 text-primary" />
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-grow">
             <div className="text-3xl font-bold text-foreground">{stats.sentLast24h}</div>
             <p className="text-xs text-muted-foreground pt-1">Messages successfully delivered recently.</p>
           </CardContent>
+          <CardFooter>
+            <Button asChild variant="outline" size="sm" className="w-full">
+              <Link href="/history">
+                View History <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </CardFooter>
         </Card>
       </div>
 
