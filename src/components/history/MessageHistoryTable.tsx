@@ -53,11 +53,11 @@ export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }
     }
   };
 
-  const handleConfirmCancel = () => {
-    if (messageToCancel) {
-      onCancelMessage(messageToCancel);
+  const handleConfirmCancelAction = (idToCancel: string) => {
+    if (idToCancel) {
+      onCancelMessage(idToCancel);
       toast({ title: "Message Cancelled", description: "The scheduled message has been cancelled." });
-      setMessageToCancel(null);
+      setMessageToCancel(null); // Close the dialog
     }
   };
 
@@ -75,63 +75,61 @@ export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }
   }
 
   return (
-    <>
     <Card className="shadow-lg">
-    <CardContent className="p-0">
-    <Table>
-      <TableCaption>A list of your scheduled and sent messages.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[200px]">Scheduled Time</TableHead>
-          <TableHead>Message Preview</TableHead>
-          <TableHead className="w-[150px]">Target(s)</TableHead>
-          <TableHead className="w-[120px]">Status</TableHead>
-          <TableHead className="text-right w-[150px]">Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {messages.map((msg) => (
-          <TableRow key={msg.id}
-            ><TableCell className="font-medium">{format(msg.scheduledTime, "PPpp")}</TableCell
-            ><TableCell className="max-w-xs truncate">{msg.messageContent}</TableCell
-            ><TableCell>{msg.targetChatIds.length} chat(s)</TableCell
-            ><TableCell>{getStatusBadge(msg.status)}</TableCell
-            ><TableCell className="text-right">
-              {msg.status === "Pending" && (
-                <div className="space-x-2">
-                  <Button variant="outline" size="icon" onClick={() => onEditMessage(msg.id)} title="Edit">
-                    <Edit3 className="h-4 w-4" />
-                  </Button>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="destructive" size="icon" onClick={() => setMessageToCancel(msg.id)} title="Cancel">
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </AlertDialogTrigger>
-                </div>
-              )}
-            </TableCell></TableRow>
-        ))}
-      </TableBody>
-    </Table>
-    </CardContent>
+      <CardContent className="p-0">
+        <Table>
+          <TableCaption>A list of your scheduled and sent messages.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[200px]">Scheduled Time</TableHead>
+              <TableHead>Message Preview</TableHead>
+              <TableHead className="w-[150px]">Target(s)</TableHead>
+              <TableHead className="w-[120px]">Status</TableHead>
+              <TableHead className="text-right w-[150px]">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {messages.map((msg) => (
+              <TableRow key={msg.id}>
+                <TableCell className="font-medium">{format(msg.scheduledTime, "PPpp")}</TableCell>
+                <TableCell className="max-w-xs truncate">{msg.messageContent}</TableCell>
+                <TableCell>{msg.targetChatIds.length} chat(s)</TableCell>
+                <TableCell>{getStatusBadge(msg.status)}</TableCell>
+                <TableCell className="text-right">
+                  {msg.status === "Pending" && (
+                    <div className="space-x-2">
+                      <Button variant="outline" size="icon" onClick={() => onEditMessage(msg.id)} title="Edit">
+                        <Edit3 className="h-4 w-4" />
+                      </Button>
+                      <AlertDialog open={messageToCancel === msg.id} onOpenChange={(isOpen) => { if (!isOpen) setMessageToCancel(null); }}>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="destructive" size="icon" onClick={() => setMessageToCancel(msg.id)} title="Cancel">
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Are you sure you want to cancel this message?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone. The message will not be sent.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel onClick={() => setMessageToCancel(null)}>Keep Message</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => handleConfirmCancelAction(msg.id)} className="bg-destructive hover:bg-destructive/90">
+                              Confirm Cancel
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
     </Card>
-
-    <AlertDialog open={!!messageToCancel} onOpenChange={(open) => !open && setMessageToCancel(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure you want to cancel this message?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. The message will not be sent.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setMessageToCancel(null)}>Keep Message</AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirmCancel} className="bg-destructive hover:bg-destructive/90">
-              Confirm Cancel
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
   );
 }
