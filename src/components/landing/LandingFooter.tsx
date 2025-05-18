@@ -30,47 +30,43 @@ export function LandingFooter() {
     <footer className="border-t border-border/40 bg-background text-muted-foreground">
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
-          <div className="md:col-span-4">
+          <div className="md:col-span-5 lg:col-span-6"> {/* Adjusted column span */}
             <Link href="/" className="flex items-center space-x-2.5 mb-4">
               <TgTeleflowLogoSmall />
               <span className="text-xl font-semibold text-foreground">TgTeleFlow</span>
             </Link>
-            <p className="text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed max-w-md"> {/* Added max-w-md for better readability */}
               Transforming Telegram communication with AI-powered automation and intelligent scheduling.
             </p>
           </div>
 
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 lg:col-span-2">
             <h5 className="font-semibold text-foreground mb-3">Product</h5>
             <ul className="space-y-2 text-sm">
               <li><Link href="#features" className="hover:text-primary transition-colors">Features</Link></li>
               <li><Link href="#pricing" className="hover:text-primary transition-colors">Pricing</Link></li>
-              {/* <li><Link href="#integrations" className="hover:text-primary transition-colors">Integrations</Link></li> Placeholder */}
-            </ul>
-          </div>
-
-          <div className="md:col-span-2">
-            <h5 className="font-semibold text-foreground mb-3">Company</h5>
-            <ul className="space-y-2 text-sm">
-              {/* <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li> Placeholder */}
-              {/* <li><Link href="/blog" className="hover:text-primary transition-colors">Blog</Link></li> Placeholder */}
-              <li><Link href="#support" className="hover:text-primary transition-colors">Support</Link></li>
             </ul>
           </div>
           
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 lg:col-span-2">
             <h5 className="font-semibold text-foreground mb-3">Legal</h5>
             <ul className="space-y-2 text-sm">
               <li><Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
               <li><Link href="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
-            <div className="md:col-span-2 text-left md:text-right">
-                 <h5 className="font-semibold text-foreground mb-3">Contact</h5>
-                 <a href={telegramSupportLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center hover:text-primary transition-colors text-sm">
-                    <TelegramIcon className="h-5 w-5 mr-2" /> Telegram Support
-                 </a>
-            </div>
+
+          <div className="md:col-span-3 lg:col-span-2 text-left md:text-left"> {/* Adjusted alignment for consistency */}
+             <h5 className="font-semibold text-foreground mb-3">Contact</h5>
+             <a 
+                href={telegramSupportLink} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center hover:text-primary transition-colors text-sm"
+              >
+                <TelegramIcon className="h-5 w-5 mr-2" /> Telegram Support
+             </a>
+          </div>
         </div>
 
         <div className="mt-10 pt-8 border-t border-border/40 text-center text-sm">
