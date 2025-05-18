@@ -11,12 +11,12 @@ import {
   TableRow,
   TableCaption,
 } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Added CardHeader, CardTitle
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { ScheduledMessage } from "@/components/scheduler/MessageComposer"; // Reuse type
 import { format } from "date-fns";
-import { Edit3, Trash2, Clock, CheckCircle, XCircle, SendHorizonal, History as HistoryIcon } from "lucide-react"; // Renamed History to HistoryIcon
+import { Edit3, Trash2, Clock, CheckCircle, XCircle, SendHorizonal, History as HistoryIcon } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,7 +29,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
-import Link from "next/link"; // Import Link
+import Link from "next/link";
 
 interface MessageHistoryTableProps {
   messages: ScheduledMessage[];
@@ -39,7 +39,7 @@ interface MessageHistoryTableProps {
 
 export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }: MessageHistoryTableProps) {
   const { toast } = useToast();
-  // const [messageToCancel, setMessageToCancel] = useState<string | null>(null); // This state will be managed per row
+  const [messageToCancel, setMessageToCancel] = useState<string | null>(null);
 
   const getStatusBadge = (status: ScheduledMessage["status"]) => {
     switch (status) {
@@ -57,6 +57,7 @@ export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }
   const handleConfirmCancelAction = (idToCancel: string) => {
     onCancelMessage(idToCancel);
     toast({ title: "Message Cancelled", description: "The scheduled message has been cancelled." });
+    setMessageToCancel(null);
   };
 
   if (messages.length === 0) {
@@ -76,16 +77,10 @@ export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }
 
   return (
     <Card className="shadow-md">
-      {/* Optional: CardHeader for the table itself */}
-      {/* <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <HistoryIcon className="h-5 w-5 text-primary" />
-          Message Log
-        </CardTitle>
-      </CardHeader> */}
-      <CardContent className="p-0"> {/* Remove default padding if table is directly inside */}
+      <CardContent className="p-0">
         <div className="overflow-x-auto">
           <Table>
+            {messages.length > 0 && <TableCaption className="py-4">A list of your scheduled and sent messages.</TableCaption>}
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[200px] whitespace-nowrap">Scheduled Time</TableHead>
@@ -108,9 +103,9 @@ export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }
                         <Button variant="outline" size="icon" onClick={() => onEditMessage(msg.id)} title="Edit Message">
                           <Edit3 className="h-4 w-4" />
                         </Button>
-                        <AlertDialog>
+                        <AlertDialog open={messageToCancel === msg.id} onOpenChange={(isOpen) => !isOpen && setMessageToCancel(null)}>
                           <AlertDialogTrigger asChild>
-                            <Button variant="destructive" size="icon" title="Cancel Message">
+                            <Button variant="destructive" size="icon" title="Cancel Message" onClick={() => setMessageToCancel(msg.id)}>
                               <Trash2 className="h-4 w-4" />
                             </Button>
                           </AlertDialogTrigger>
@@ -122,7 +117,7 @@ export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Keep Message</AlertDialogCancel>
+                              <AlertDialogCancel onClick={() => setMessageToCancel(null)}>Keep Message</AlertDialogCancel>
                               <AlertDialogAction onClick={() => handleConfirmCancelAction(msg.id)} className="bg-destructive hover:bg-destructive/90">
                                 Confirm Cancel
                               </AlertDialogAction>
@@ -137,7 +132,6 @@ export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }
             </TableBody>
           </Table>
         </div>
-         {messages.length > 0 && <TableCaption className="py-4">A list of your scheduled and sent messages.</TableCaption>}
       </CardContent>
     </Card>
   );
