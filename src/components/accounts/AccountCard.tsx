@@ -42,15 +42,15 @@ export function AccountCard({ account, onReauthenticate, onUnlink, onRefreshChat
       case "Needs Re-authentication":
         return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
       case "Error":
-        return <AlertTriangle className="h-4 w-4 text-red-500" />; // Ensure this uses a destructive-like color from theme if possible
+        return <AlertTriangle className="h-4 w-4 text-red-500" />;
       default:
         return null;
     }
   }
 
   return (
-    <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-      <CardHeader className="pb-4"> {/* Reduced padding bottom */}
+    <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
+      <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             {account.avatarUrl ? (
@@ -58,32 +58,32 @@ export function AccountCard({ account, onReauthenticate, onUnlink, onRefreshChat
             ) : (
               <UserCircle className="h-10 w-10 text-muted-foreground" />
             )}
-            <CardTitle className="text-lg">{account.identifier}</CardTitle> {/* Ensured consistent CardTitle usage */}
+            <CardTitle className="text-lg">{account.identifier}</CardTitle>
           </div>
         </div>
       </CardHeader>
-      <CardContent className="pt-0 pb-4"> {/* Adjusted padding */}
+      <CardContent className="pt-0 pb-4 flex-grow"> {/* Added flex-grow */}
         <div className="flex items-center gap-2">
          {getStatusIcon(account.status)}
          <Badge variant={getStatusBadgeVariant(account.status)} className="text-xs px-2 py-0.5">
             {account.status}
           </Badge>
         </div>
-        <CardDescription className="mt-2 text-sm"> {/* Ensured consistent CardDescription usage */}
+        <CardDescription className="mt-2 text-sm">
           Manage this Telegram account's connection and chat lists.
         </CardDescription>
       </CardContent>
-      <CardFooter className="flex flex-col sm:flex-row justify-between gap-2 pt-0">
-        <Button variant="outline" size="sm" onClick={() => onRefreshChats(account.id)} className="w-full sm:w-auto">
+      <CardFooter className="flex flex-col items-stretch gap-3 pt-4 sm:flex-row sm:justify-between sm:items-center">
+        <Button variant="outline" size="sm" onClick={() => onRefreshChats(account.id)} className="w-full sm:w-auto text-sm">
           <RefreshCw className="mr-2 h-4 w-4" /> Refresh Chats
         </Button>
-        <div className="flex gap-2 w-full sm:w-auto">
+        <div className="flex flex-col gap-2 sm:flex-row sm:w-auto w-full">
           {account.status !== "Active" && (
-            <Button variant="secondary" size="sm" onClick={() => onReauthenticate(account.id)} className="flex-1">
+            <Button variant="secondary" size="sm" onClick={() => onReauthenticate(account.id)} className="w-full sm:w-auto text-sm">
               Re-authenticate
             </Button>
           )}
-          <Button variant="destructive" size="sm" onClick={() => onUnlink(account.id)} className="flex-1">
+          <Button variant="destructive" size="sm" onClick={() => onUnlink(account.id)} className="w-full sm:w-auto text-sm">
             <Link2Off className="mr-2 h-4 w-4" /> Unlink
           </Button>
         </div>
