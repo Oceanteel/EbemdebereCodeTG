@@ -44,14 +44,14 @@ export function LandingHeader() {
         {/* Desktop Navigation - Auth Buttons */}
         <div className="hidden items-center space-x-3 md:flex">
           <Button variant="ghost" asChild className="text-base font-medium text-foreground/70 hover:text-primary hover:bg-muted transition-colors">
-            <Link href="/login">Login</Link>
+            <Link href="/signup">Sign Up</Link>
           </Button>
           <Button 
             asChild 
             size="lg"
             className="text-base font-semibold bg-gradient-to-r from-primary to-[hsl(var(--accent))] text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 px-6 py-3"
           >
-            <Link href="/signup">Sign Up Free</Link>
+            <Link href="/login">Login</Link>
           </Button>
         </div>
 
@@ -80,14 +80,14 @@ export function LandingHeader() {
             ))}
             <div className="w-full pt-2 space-y-2">
               <Button variant="outline" asChild className="w-full text-lg py-3 border-primary text-primary hover:bg-primary/10" onClick={() => setIsMobileMenuOpen(false)}>
-                <Link href="/login">Login</Link>
+                <Link href="/signup">Sign Up</Link>
               </Button>
               <Button 
                 asChild 
                 className="w-full text-lg py-3 bg-gradient-to-r from-primary to-[hsl(var(--accent))] text-primary-foreground shadow-md hover:shadow-lg transition-shadow duration-300"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <Link href="/signup">Sign Up Free</Link>
+                <Link href="/login">Login</Link>
               </Button>
             </div>
           </nav>
