@@ -3,15 +3,13 @@
 
 import { useState } from "react";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  TableCaption,
-} from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { ScheduledMessage } from "@/components/scheduler/MessageComposer"; // Reuse type
@@ -31,13 +29,13 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 
-interface MessageHistoryTableProps {
+interface MessageHistoryListProps { // Renamed props interface for clarity
   messages: ScheduledMessage[];
   onEditMessage: (messageId: string) => void;
   onCancelMessage: (messageId: string) => void;
 }
 
-export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }: MessageHistoryTableProps) {
+export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }: MessageHistoryListProps) {
   const { toast } = useToast();
   const [messageToCancel, setMessageToCancel] = useState<string | null>(null);
 
@@ -62,11 +60,11 @@ export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }
 
   if (messages.length === 0) {
     return (
-        <Card className="text-center py-12 shadow-md border-0 bg-card">
+        <Card className="text-center py-12 shadow-lg border-0 bg-card">
           <CardContent className="flex flex-col items-center">
-            <SendHorizonal className="mx-auto h-16 w-16 text-muted-foreground/50 mb-4" />
-            <h3 className="text-xl font-semibold">No Messages Yet</h3>
-            <p className="text-muted-foreground mt-1 mb-4">Your scheduled and sent messages will appear here.</p>
+            <HistoryIcon className="mx-auto h-16 w-16 text-muted-foreground/50 mb-4" />
+            <h3 className="text-xl font-semibold">No Message History</h3>
+            <p className="text-muted-foreground mt-1 mb-4">Your scheduled and sent messages will appear here as cards.</p>
             <Button variant="default" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
               <Link href="/scheduler">Schedule a Message</Link>
             </Button>
@@ -76,63 +74,59 @@ export function MessageHistoryTable({ messages, onEditMessage, onCancelMessage }
   }
 
   return (
-    <Card className="shadow-md">
-      <CardContent className="p-0">
-        <div className="overflow-x-auto">
-          <Table>
-            {messages.length > 0 && <TableCaption className="py-4">A list of your scheduled and sent messages.</TableCaption>}
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[200px] whitespace-nowrap">Scheduled Time</TableHead>
-                <TableHead>Message Preview</TableHead>
-                <TableHead className="w-[150px] whitespace-nowrap">Target(s)</TableHead>
-                <TableHead className="w-[120px]">Status</TableHead>
-                <TableHead className="text-right w-[150px]">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {messages.map((msg) => (
-                <TableRow key={msg.id} className="hover:bg-muted/30">
-                  <TableCell className="font-medium whitespace-nowrap">{format(msg.scheduledTime, "MMM d, yyyy 'at' p")}</TableCell>
-                  <TableCell className="max-w-xs truncate hover:whitespace-normal">{msg.messageContent}</TableCell>
-                  <TableCell>{msg.targetChatIds.length} chat(s)</TableCell>
-                  <TableCell>{getStatusBadge(msg.status)}</TableCell>
-                  <TableCell className="text-right">
-                    {msg.status === "Pending" && (
-                      <div className="space-x-2 flex justify-end">
-                        <Button variant="outline" size="icon" onClick={() => onEditMessage(msg.id)} title="Edit Message">
-                          <Edit3 className="h-4 w-4" />
-                        </Button>
-                        <AlertDialog open={messageToCancel === msg.id} onOpenChange={(isOpen) => !isOpen && setMessageToCancel(null)}>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="destructive" size="icon" title="Cancel Message" onClick={() => setMessageToCancel(msg.id)}>
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Are you sure you want to cancel this message?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This action cannot be undone. The message will not be sent.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel onClick={() => setMessageToCancel(null)}>Keep Message</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => handleConfirmCancelAction(msg.id)} className="bg-destructive hover:bg-destructive/90">
-                                Confirm Cancel
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {messages.map((msg) => (
+        <Card key={msg.id} className="shadow-lg flex flex-col">
+          <CardHeader className="pb-3">
+            <div className="flex justify-between items-start">
+              <div className="flex-1">
+                <CardDescription className="text-xs">Scheduled Time</CardDescription>
+                <CardTitle className="text-md leading-tight">{format(msg.scheduledTime, "MMM d, yyyy 'at' p")}</CardTitle>
+              </div>
+              {getStatusBadge(msg.status)}
+            </div>
+          </CardHeader>
+          <CardContent className="flex-grow space-y-3 pt-0">
+            <div>
+              <CardDescription className="text-xs mb-0.5">Message</CardDescription>
+              <p className="text-sm line-clamp-4">{msg.messageContent}</p>
+            </div>
+            <div>
+              <CardDescription className="text-xs">Target(s)</CardDescription>
+              <p className="text-sm font-medium">{msg.targetChatIds.length} chat(s)</p>
+            </div>
+          </CardContent>
+          {msg.status === "Pending" && (
+            <CardFooter className="border-t pt-4 mt-auto flex justify-end space-x-2">
+              <Button variant="outline" size="sm" onClick={() => onEditMessage(msg.id)} title="Edit Message">
+                <Edit3 className="mr-2 h-4 w-4" /> Edit
+              </Button>
+              <AlertDialog open={messageToCancel === msg.id} onOpenChange={(isOpen) => !isOpen && setMessageToCancel(null)}>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" size="sm" title="Cancel Message" onClick={() => setMessageToCancel(msg.id)}>
+                    <Trash2 className="mr-2 h-4 w-4" /> Cancel
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure you want to cancel this message?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. The message will not be sent.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel onClick={() => setMessageToCancel(null)}>Keep Message</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => handleConfirmCancelAction(msg.id)} className="bg-destructive hover:bg-destructive/90">
+                      Confirm Cancel
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </CardFooter>
+          )}
+        </Card>
+      ))}
+    </div>
   );
 }
+
