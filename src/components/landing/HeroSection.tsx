@@ -30,7 +30,7 @@ export function HeroSection() {
         </div>
 
         {/* Wrapper for h1 and p to control their max-width */}
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-[52rem] mx-auto">
           <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
             Your Telegram, Automated and Enhanced by AI. <span className="block md:inline"><span className="inline-block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-normal leading-snug">TgTeleFlow</span>.</span>
           </h1>
@@ -50,7 +50,7 @@ export function HeroSection() {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
-          <Button size="lg" variant="outline" asChild className="px-10 py-7 text-lg font-semibold shadow-md hover:shadow-lg hover:bg-muted transition-all duration-300 border-border hover:border-primary/30">
+          <Button size="lg" variant="ghost" asChild className="px-10 py-7 text-lg font-semibold shadow-md hover:shadow-lg hover:bg-muted transition-all duration-300 border-border hover:border-primary/30">
             <Link href="/signup">Sign Up</Link>
           </Button>
         </div>
@@ -85,3 +85,4 @@ export function HeroSection() {
     </section>
   );
 }
+
