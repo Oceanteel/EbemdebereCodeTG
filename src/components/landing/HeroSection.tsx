@@ -17,13 +17,13 @@ export function HeroSection() {
           Streamline your Telegram communications. Schedule messages, craft engaging content with AI, and manage multiple accounts seamlessly.
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
-          <Button size="lg" asChild className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg">
+          <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg px-8 py-3 text-lg">
             <Link href="/login">
               Get Started Free
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
-          <Button size="lg" variant="outline" asChild className="shadow-sm">
+          <Button size="lg" variant="outline" asChild className="shadow-sm px-8 py-3 text-lg">
             <Link href="#features">Learn More</Link>
           </Button>
         </div>

@@ -8,6 +8,10 @@ import { Loader2 } from 'lucide-react';
 import { LandingHeader } from '@/components/landing/LandingHeader';
 import { HeroSection } from '@/components/landing/HeroSection';
 import { FeaturesSection } from '@/components/landing/FeaturesSection';
+import { AiFeatureDeepDiveSection } from '@/components/landing/AiFeatureDeepDiveSection';
+import { KeyBenefitsSection } from '@/components/landing/KeyBenefitsSection';
+import { DualFeatureHighlightSection } from '@/components/landing/DualFeatureHighlightSection';
+import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
 import { CtaSection } from '@/components/landing/CtaSection';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 
@@ -33,7 +37,6 @@ export default function LandingPage() {
 
   // If user is already determined and exists (but redirect hasn't completed),
   // it's better to show loader rather than flash landing page.
-  // This case is covered by the effect, but to prevent flashing:
   if (!loading && user) {
     return (
       <div className="flex h-screen items-center justify-center bg-background">
@@ -49,6 +52,10 @@ export default function LandingPage() {
       <main className="flex-grow">
         <HeroSection />
         <FeaturesSection />
+        <AiFeatureDeepDiveSection />
+        <KeyBenefitsSection />
+        <DualFeatureHighlightSection />
+        <TestimonialsSection />
         <CtaSection />
       </main>
       <LandingFooter />
