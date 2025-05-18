@@ -14,19 +14,18 @@ import { DualFeatureHighlightSection } from '@/components/landing/DualFeatureHig
 import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
 import { CtaSection } from '@/components/landing/CtaSection';
 import { LandingFooter } from '@/components/landing/LandingFooter';
+import { PricingSection } from '@/components/landing/PricingSection'; // New
 
 export default function LandingPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    // If auth state is not loading and a user exists, redirect to dashboard
     if (!loading && user) {
       router.replace('/dashboard');
     }
   }, [user, loading, router]);
 
-  // If auth state is loading, show a loader
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center bg-background">
@@ -35,8 +34,6 @@ export default function LandingPage() {
     );
   }
 
-  // If user is already determined and exists (but redirect hasn't completed),
-  // it's better to show loader rather than flash landing page.
   if (!loading && user) {
     return (
       <div className="flex h-screen items-center justify-center bg-background">
@@ -45,14 +42,14 @@ export default function LandingPage() {
     );
   }
   
-  // If not loading and no user, render the landing page
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-background to-muted/30">
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
       <LandingHeader />
       <main className="flex-grow">
         <HeroSection />
         <FeaturesSection />
         <AiFeatureDeepDiveSection />
+        <PricingSection />
         <KeyBenefitsSection />
         <DualFeatureHighlightSection />
         <TestimonialsSection />

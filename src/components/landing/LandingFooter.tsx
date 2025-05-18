@@ -4,7 +4,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-// Using an inline SVG for Telegram icon as lucide-react doesn't have a direct brand icon.
 const TelegramIcon = ({ className }: { className?: string }) => (
   <svg
     className={className}
@@ -16,35 +15,70 @@ const TelegramIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const TgTeleflowLogoSmall = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="none">
+    <rect width="20" height="20" x="2" y="2" rx="4" ry="4" fill="hsl(var(--muted-foreground))"/> {/* Using muted-foreground for subtle logo */}
+    <path d="m8 12 3 3 5-5" stroke="hsl(var(--background))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
 
 export function LandingFooter() {
   const currentYear = new Date().getFullYear();
-  const telegramSupportLink = "https://t.me/YourTgTeleFlowSupport"; // Placeholder
+  const telegramSupportLink = "https://t.me/YourTgTeleFlowSupport"; // Placeholder - UPDATE THIS
 
   return (
-    <footer className="border-t border-border/40 bg-background">
-      <div className="container mx-auto px-6 py-8">
-        <div className="flex flex-col items-center justify-between md:flex-row">
-          <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} TgTeleFlow. All rights reserved.
-          </p>
-          <div className="flex items-center space-x-4 mt-4 md:mt-0">
-            <Button variant="ghost" size="sm" asChild>
-                <Link href="/privacy-policy">Privacy Policy</Link> 
-            </Button>
-             <Button variant="ghost" size="sm" asChild>
-                <Link href="/terms-of-service">Terms of Service</Link>
-            </Button>
-            <Link href={telegramSupportLink} target="_blank" rel="noopener noreferrer" aria-label="Contact Support on Telegram">
-              <TelegramIcon className="h-6 w-6 text-muted-foreground hover:text-primary transition-colors" />
+    <footer className="border-t border-border/40 bg-background text-muted-foreground">
+      <div className="container mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
+          <div className="md:col-span-4">
+            <Link href="/" className="flex items-center space-x-2.5 mb-4">
+              <TgTeleflowLogoSmall />
+              <span className="text-xl font-semibold text-foreground">TgTeleFlow</span>
             </Link>
+            <p className="text-sm leading-relaxed">
+              Transforming Telegram communication with AI-powered automation and intelligent scheduling.
+            </p>
           </div>
+
+          <div className="md:col-span-2">
+            <h5 className="font-semibold text-foreground mb-3">Product</h5>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="#features" className="hover:text-primary transition-colors">Features</Link></li>
+              <li><Link href="#pricing" className="hover:text-primary transition-colors">Pricing</Link></li>
+              {/* <li><Link href="#integrations" className="hover:text-primary transition-colors">Integrations</Link></li> Placeholder */}
+            </ul>
+          </div>
+
+          <div className="md:col-span-2">
+            <h5 className="font-semibold text-foreground mb-3">Company</h5>
+            <ul className="space-y-2 text-sm">
+              {/* <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li> Placeholder */}
+              {/* <li><Link href="/blog" className="hover:text-primary transition-colors">Blog</Link></li> Placeholder */}
+              <li><Link href="#support" className="hover:text-primary transition-colors">Support</Link></li>
+            </ul>
+          </div>
+          
+          <div className="md:col-span-2">
+            <h5 className="font-semibold text-foreground mb-3">Legal</h5>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms-of-service" className="hover:text-primary transition-colors">Terms of Service</Link></li>
+            </ul>
+          </div>
+            <div className="md:col-span-2 text-left md:text-right">
+                 <h5 className="font-semibold text-foreground mb-3">Contact</h5>
+                 <a href={telegramSupportLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center hover:text-primary transition-colors text-sm">
+                    <TelegramIcon className="h-5 w-5 mr-2" /> Telegram Support
+                 </a>
+            </div>
         </div>
-         {/* Placeholder links for privacy and terms. You'll need to create these pages. */}
-        <p className="text-xs text-muted-foreground/70 text-center mt-6">
-            Note: Privacy Policy and Terms of Service pages are placeholders. You need to create these.
-            Remember to update the Telegram support link to your actual support channel.
-        </p>
+
+        <div className="mt-10 pt-8 border-t border-border/40 text-center text-sm">
+          &copy; {currentYear} TgTeleFlow. All rights reserved.
+          <p className="text-xs text-muted-foreground/70 mt-1">
+            Remember to update placeholder links (Privacy, Terms, Support Telegram).
+          </p>
+        </div>
       </div>
     </footer>
   );
