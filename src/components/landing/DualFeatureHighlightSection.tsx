@@ -31,7 +31,7 @@ export function DualFeatureHighlightSection() {
     <section id="core-features-detailed" className="py-16 md:py-24 bg-muted/30">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-           <div className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4 shadow-sm">
+           <div className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4 shadow-sm">
               <ListChecks className="mr-2 h-5 w-5" />
               POWERFUL & INTUITIVE
             </div>
@@ -73,3 +73,4 @@ export function DualFeatureHighlightSection() {
     </section>
   );
 }
+

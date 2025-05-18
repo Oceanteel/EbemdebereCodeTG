@@ -39,7 +39,7 @@ export function KeyBenefitsSection() {
     <section id="benefits" className="py-16 md:py-24 bg-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-           <div className="inline-block rounded-full bg-accent/10 px-4 py-1.5 text-sm font-medium text-accent mb-4 shadow-sm">
+           <div className="inline-flex items-center rounded-full bg-accent/10 px-4 py-1.5 text-sm font-medium text-accent mb-4 shadow-sm">
               <BarChart3 className="mr-2 h-5 w-5" />
               TANGIBLE RESULTS
             </div>
@@ -73,3 +73,4 @@ export function KeyBenefitsSection() {
     </section>
   );
 }
+

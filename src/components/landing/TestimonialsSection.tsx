@@ -38,8 +38,8 @@ export function TestimonialsSection() {
     <section id="testimonials" className="py-16 md:py-24 bg-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <div className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4 shadow-sm">
-            <Sparkles className="mr-2 h-5 w-5 inline-block" />
+          <div className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-4 shadow-sm">
+            <Sparkles className="mr-2 h-5 w-5" />
             USER SUCCESS STORIES
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
@@ -78,3 +78,4 @@ export function TestimonialsSection() {
     </section>
   );
 }
+
