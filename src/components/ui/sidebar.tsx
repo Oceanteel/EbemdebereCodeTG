@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import { Sheet, SheetContent } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet" // Added SheetTitle
 import { Skeleton } from "@/components/ui/skeleton"
 import {
   Tooltip,
@@ -207,6 +207,7 @@ const Sidebar = React.forwardRef<
             }
             side={side}
           >
+            <SheetTitle className="sr-only">Main Navigation</SheetTitle> {/* Added for accessibility */}
             <div className="flex h-full w-full flex-col">{children}</div>
           </SheetContent>
         </Sheet>
@@ -262,8 +263,8 @@ Sidebar.displayName = "Sidebar"
 
 const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
-  React.ComponentProps<typeof Button> // Includes 'children' and 'asChild'
->(({ className, onClick, children, asChild: useAsChildSlot, ...props }, ref) => {
+  React.ComponentProps<typeof Button>
+>(({ className, onClick, children, asChild, ...props }, ref) => {
   const { toggleSidebar } = useSidebar();
 
   return (
@@ -277,15 +278,10 @@ const SidebarTrigger = React.forwardRef<
         onClick?.(event);
         toggleSidebar();
       }}
-      asChild={useAsChildSlot} // Pass the asChild status to the inner Button
-      {...props} // Pass down other props
+      asChild={asChild}
+      {...props}
     >
-      {/* 
-        If 'useAsChildSlot' is true, the Button becomes a Slot. 
-        This Slot will render its 'children' prop (which are the children passed to SidebarTrigger).
-        If 'useAsChildSlot' is false, Button is a regular button, and these are its explicit children.
-      */}
-      {useAsChildSlot ? children : (
+      {asChild && children ? children : (
         <>
           <PanelLeft />
           <span className="sr-only">Toggle Sidebar</span>
@@ -772,3 +768,4 @@ export {
   SidebarTrigger,
   useSidebar,
 }
+
