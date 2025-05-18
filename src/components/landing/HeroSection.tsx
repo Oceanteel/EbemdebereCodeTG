@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -28,13 +29,14 @@ export function HeroSection() {
           Telegram Automation, Reimagined
         </div>
 
-        {/* H1 and P now direct children of the container div */}
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
-          Your Telegram, Automated and Enhanced by AI. <span className="block md:inline"><span className="inline-block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-normal leading-snug">TgTeleFlow</span>.</span>
-        </h1>
-        <p className="mt-6 text-lg leading-8 text-muted-foreground md:text-xl">
-          Schedule messages in advance, handle multiple accounts with ease, and let smart AI create engaging conversations. TgTeleFlow helps you stay active, effortlessly.
-        </p>
+        <div className="max-w-[61.25rem] mx-auto"> {/* Max width set to 980px (61.25rem) and centered */}
+          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
+            Your Telegram, Automated and Enhanced by AI. Meet <span className="inline-block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent tracking-normal leading-snug">TgTeleFlow</span>.
+          </h1>
+          <p className="mt-6 text-lg leading-8 text-muted-foreground md:text-xl">
+            Schedule messages in advance, handle multiple accounts with ease, and let smart AI create engaging conversations. TgTeleFlow helps you stay active, effortlessly.
+          </p>
+        </div>
 
         <div className="mt-10 flex items-center justify-center">
           <Button
