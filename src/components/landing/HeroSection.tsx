@@ -8,7 +8,7 @@ import { ArrowRight, Zap } from 'lucide-react';
 
 export function HeroSection() {
   return (
-    <section className="relative py-20 md:py-32 lg:py-40 overflow-hidden bg-background"> {/* Ensure section has a base bg if aurora is subtle */}
+    <section className="relative py-20 md:py-32 lg:py-40 overflow-hidden bg-background">
       {/* Subtle Aurora Background Effect */}
       <div 
         aria-hidden="true" 
@@ -29,7 +29,7 @@ export function HeroSection() {
           Telegram Automation, Reimagined
         </div>
         <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
-          Your Telegram, Automated and Enhanced by AI. <span className="block md:inline">Meet <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">TgTeleFlow</span>.</span>
+          Your Telegram, Automated and Enhanced by AI. <span className="block md:inline">Meet <span className="inline-block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">TgTeleFlow</span>.</span>
         </h1>
         <p className="mt-6 max-w-3xl mx-auto text-lg leading-8 text-muted-foreground md:text-xl">
           Schedule messages in advance, handle multiple accounts with ease, and let smart AI create engaging conversations. TgTeleFlow helps you stay active, effortlessly.
@@ -80,3 +80,4 @@ export function HeroSection() {
     </section>
   );
 }
+
