@@ -39,21 +39,19 @@ export function HeroSection() {
           </p>
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-y-6 gap-x-6 sm:flex-row">
+        <div className="mt-10 flex items-center justify-center">
           <Button
             size="lg"
             asChild
             className="px-10 py-7 text-lg font-semibold bg-gradient-to-r from-primary to-[hsl(var(--accent))] text-primary-foreground shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
           >
-            <Link href="/login">
-              Login
+            <Link href="/signup">
+              Sign Up Free
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
-          <Button size="lg" variant="ghost" asChild className="px-10 py-7 text-lg font-semibold shadow-md hover:shadow-lg hover:bg-muted transition-all duration-300 border-border hover:border-primary/30">
-            <Link href="/signup">Sign Up</Link>
-          </Button>
         </div>
+        
         <div className="mt-16 flow-root sm:mt-24">
           <div className="relative rounded-xl bg-card/5 p-2 shadow-2xl ring-1 ring-inset ring-primary/10 lg:rounded-2xl lg:p-3 backdrop-blur-sm">
              <div
@@ -71,7 +69,7 @@ export function HeroSection() {
               />
             </div>
             <Image
-              src="https://placehold.co/1200x800.png"
+              src="https://placehold.co/1200x800.png" 
               alt="TgTeleFlow App Interface Mockup"
               width={2432}
               height={1442}
@@ -85,4 +83,3 @@ export function HeroSection() {
     </section>
   );
 }
-
