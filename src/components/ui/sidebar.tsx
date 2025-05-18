@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -261,9 +262,9 @@ Sidebar.displayName = "Sidebar"
 
 const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
-  React.ComponentProps<typeof Button>
->(({ className, onClick, ...props }, ref) => {
-  const { toggleSidebar } = useSidebar()
+  React.ComponentProps<typeof Button> // Includes 'children' and 'asChild'
+>(({ className, onClick, children, asChild: useAsChildSlot, ...props }, ref) => {
+  const { toggleSidebar } = useSidebar();
 
   return (
     <Button
@@ -273,16 +274,26 @@ const SidebarTrigger = React.forwardRef<
       size="icon"
       className={cn("h-7 w-7", className)}
       onClick={(event) => {
-        onClick?.(event)
-        toggleSidebar()
+        onClick?.(event);
+        toggleSidebar();
       }}
-      {...props}
+      asChild={useAsChildSlot} // Pass the asChild status to the inner Button
+      {...props} // Pass down other props
     >
-      <PanelLeft />
-      <span className="sr-only">Toggle Sidebar</span>
+      {/* 
+        If 'useAsChildSlot' is true, the Button becomes a Slot. 
+        This Slot will render its 'children' prop (which are the children passed to SidebarTrigger).
+        If 'useAsChildSlot' is false, Button is a regular button, and these are its explicit children.
+      */}
+      {useAsChildSlot ? children : (
+        <>
+          <PanelLeft />
+          <span className="sr-only">Toggle Sidebar</span>
+        </>
+      )}
     </Button>
-  )
-})
+  );
+});
 SidebarTrigger.displayName = "SidebarTrigger"
 
 const SidebarRail = React.forwardRef<
