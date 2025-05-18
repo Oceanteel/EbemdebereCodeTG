@@ -73,17 +73,17 @@ export function AccountCard({ account, onReauthenticate, onUnlink, onRefreshChat
           Manage this Telegram account's connection and chat lists.
         </CardDescription>
       </CardContent>
-      <CardFooter className="flex flex-col items-stretch gap-3 pt-4 sm:flex-row sm:justify-between sm:items-center">
-        <Button variant="outline" size="sm" onClick={() => onRefreshChats(account.id)} className="w-full sm:w-auto text-sm">
+      <CardFooter className="flex flex-col items-stretch gap-3 pt-4 md:flex-row md:justify-between md:items-center">
+        <Button variant="outline" size="sm" onClick={() => onRefreshChats(account.id)} className="w-full md:w-auto text-sm flex-shrink-0">
           <RefreshCw className="mr-2 h-4 w-4" /> Refresh Chats
         </Button>
-        <div className="flex flex-col gap-2 sm:flex-row sm:w-auto w-full">
+        <div className="flex flex-col gap-2 md:flex-row md:flex-wrap md:justify-end md:items-center md:gap-2 w-full md:w-auto">
           {account.status !== "Active" && (
-            <Button variant="secondary" size="sm" onClick={() => onReauthenticate(account.id)} className="w-full sm:w-auto text-sm">
+            <Button variant="secondary" size="sm" onClick={() => onReauthenticate(account.id)} className="w-full min-w-max md:w-auto text-sm">
               Re-authenticate
             </Button>
           )}
-          <Button variant="destructive" size="sm" onClick={() => onUnlink(account.id)} className="w-full sm:w-auto text-sm">
+          <Button variant="destructive" size="sm" onClick={() => onUnlink(account.id)} className="w-full min-w-max md:w-auto text-sm">
             <Link2Off className="mr-2 h-4 w-4" /> Unlink
           </Button>
         </div>
