@@ -30,17 +30,17 @@ export function LandingFooter() {
     <footer className="border-t border-border/40 bg-background text-muted-foreground">
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
-          <div className="md:col-span-5 lg:col-span-6"> {/* Adjusted column span */}
+          <div className="md:col-span-5 lg:col-span-6 flex flex-col items-center text-center md:items-start md:text-left">
             <Link href="/" className="flex items-center space-x-2.5 mb-4">
               <TgTeleflowLogoSmall />
               <span className="text-xl font-semibold text-foreground">TgTeleFlow</span>
             </Link>
-            <p className="text-sm leading-relaxed max-w-md"> {/* Added max-w-md for better readability */}
+            <p className="text-sm leading-relaxed max-w-md"> 
               Transforming Telegram communication with AI-powered automation and intelligent scheduling.
             </p>
           </div>
 
-          <div className="md:col-span-2 lg:col-span-2">
+          <div className="md:col-span-2 lg:col-span-2 text-center md:text-left">
             <h5 className="font-semibold text-foreground mb-3">Product</h5>
             <ul className="space-y-2 text-sm">
               <li><Link href="#features" className="hover:text-primary transition-colors">Features</Link></li>
@@ -48,7 +48,7 @@ export function LandingFooter() {
             </ul>
           </div>
           
-          <div className="md:col-span-2 lg:col-span-2">
+          <div className="md:col-span-2 lg:col-span-2 text-center md:text-left">
             <h5 className="font-semibold text-foreground mb-3">Legal</h5>
             <ul className="space-y-2 text-sm">
               <li><Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
@@ -56,7 +56,7 @@ export function LandingFooter() {
             </ul>
           </div>
 
-          <div className="md:col-span-3 lg:col-span-2 text-left md:text-left"> {/* Adjusted alignment for consistency */}
+          <div className="md:col-span-3 lg:col-span-2 text-center md:text-left">
              <h5 className="font-semibold text-foreground mb-3">Contact</h5>
              <a 
                 href={telegramSupportLink} 
