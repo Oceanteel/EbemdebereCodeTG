@@ -11,22 +11,20 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
-  useSidebar, // Import useSidebar hook
+  useSidebar, 
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboard,
-  UsersRound, // Changed from Users
-  SendHorizonal, // Changed from Send
+  UsersRound, 
+  SendHorizonal, 
   History,
   Settings,
   LogOut,
-  // BotMessageSquare, // Not currently in navItems
-  // Cable, // Not currently in navItems
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils"; // Added import for cn
+import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -36,8 +34,8 @@ const navItems = [
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
-// New Teleflow Logo SVG (inspired by Taskboard logo)
-const TeleflowLogo = () => (
+// Updated TgTeleFlow Logo SVG
+const TgTeleflowLogo = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="none">
     <rect width="20" height="20" x="2" y="2" rx="4" ry="4" fill="hsl(var(--sidebar-primary))"/>
     <path d="m8 12 3 3 5-5" stroke="hsl(var(--sidebar-primary-foreground))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -49,7 +47,7 @@ export function AppSidebar() {
   const pathname = usePathname();
   const { logout, userProfile } = useAuth();
   const router = useRouter();
-  const { state: sidebarState } = useSidebar(); // Get sidebar state
+  const { state: sidebarState } = useSidebar(); 
 
   const handleLogout = async () => {
     await logout();
@@ -69,16 +67,16 @@ export function AppSidebar() {
     <Sidebar 
       collapsible="icon" 
       side="left" 
-      variant="sidebar" // Standard sidebar, not floating or inset
-      className="border-r bg-sidebar text-sidebar-foreground shadow-sm" // Added shadow for a bit of depth
+      variant="sidebar" 
+      className="border-r bg-sidebar text-sidebar-foreground shadow-sm" 
     >
       <SidebarHeader className="p-4">
         <Link href="/dashboard" className="flex items-center gap-2.5">
-          <TeleflowLogo />
-          <span className="font-semibold text-xl text-primary group-data-[collapsible=icon]:hidden">Teleflow</span>
+          <TgTeleflowLogo />
+          <span className="font-semibold text-xl text-primary group-data-[collapsible=icon]:hidden">TgTeleFlow</span>
         </Link>
       </SidebarHeader>
-      <SidebarContent className="flex-grow p-2"> {/* Added padding to content area */}
+      <SidebarContent className="flex-grow p-2"> 
         <SidebarMenu>
           {navItems.map((item) => (
             <SidebarMenuItem key={item.href}>
@@ -87,11 +85,11 @@ export function AppSidebar() {
                   isActive={pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href))}
                   tooltip={item.label}
                   className={cn(
-                    "justify-start w-full rounded-lg", // Ensure full width and rounded corners
+                    "justify-start w-full rounded-lg", 
                     "data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground",
                     "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                   )}
-                  size="lg" // Larger clickable area
+                  size="lg" 
                 >
                   <item.icon className="h-5 w-5" />
                   <span className="group-data-[collapsible=icon]:hidden">{item.label}</span>
